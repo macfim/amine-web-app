@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="stylesheet" href="batata.css" />
+    <title>DHT11 Sensor Data</title>
+    <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-database.js"></script>
+
+    <script>
+      // Initialize Firebase
+      var firebaseConfig = {
+        apiKey: "AIzaSyAZNXEYsL8VgpIVQ6nRVs8TlBMntP8t8s0",
+        authDomain: "dht11-cffad.dht11-cffad.firebaseapp.com",
+        databaseURL: "https://dht11-cffad-default-rtdb.firebaseio.com",
+        projectId: "dht11-cffad",
+        storageBucket: "dht11-cffad.appspot.com",
+        messagingSenderId: "862292037872",
+        appId: "1:862292037872:web:30a19c6708ee54f2ac7235",
+      };
+      firebase.initializeApp(firebaseConfig);
+
+      // Get a reference to the database service
+      var database = firebase.database();
+
+      // Retrieve the temperature and humidity data from the database
+      database.ref("/ESP32_APP").on("value", function (snapshot) {
+        var temp = snapshot.child("TEMPERATURE").val();
+        var humidity = snapshot.child("HUMIDITY").val();
+
+        temp = temp.toFixed(1);
+        humidity = humidity.toFixed(1);
+
+        // Display the temperature and humidity on the page
+        document.getElementById("temp").innerHTML = temp + "°C";
+        document.getElementById("humidity").innerHTML = humidity + "%";
+      });
+
+
+      function topFunction() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+      }
+    </script>
+  </head>
+  <body>
+    <button onclick="topFunction()" id="myBtn" class="scroll-top-button">
+      <svg
+        width="24"
+        height="24"
+        xmlns="http://www.w3.org/2000/svg"
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+      >
+        <path
+          d="M12 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12zm0 1c6.071 0 11 4.929 11 11s-4.929 11-11 11-11-4.929-11-11 4.929-11 11-11zm5.247 15l-5.247-6.44-5.263 6.44-.737-.678 6-7.322 6 7.335-.753.665z"
+        />
+      </svg>
+    </button>
+    <div id="nav" class="nav">
+      <div class="nav-container">
+        <div class="glowing">
+          <span style="--i: 1"></span>
+          <span style="--i: 2"></span>
+          <span style="--i: 3"></span>
+        </div>
+        <div class="glowing">
+          <span style="--i: 1"></span>
+          <span style="--i: 2"></span>
+          <span style="--i: 3"></span>
+        </div>
+        <div class="glowing">
+          <span style="--i: 1"></span>
+          <span style="--i: 2"></span>
+          <span style="--i: 3"></span>
+        </div>
+        <div class="buttons">
+          <button onclick="location.href='#esp-section'">
+            C'est quoi ESP32?
+          </button>
+          <button onclick="location.href='#project'">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              x="0px"
+              y="0px"
+              width="30"
+              height="30"
+              viewBox="0 0 48 48"
+            >
+              <path
+                fill="#ff8f00"
+                d="M8,37L23.234,8.436c0.321-0.602,1.189-0.591,1.494,0.02L30,19L8,37z"
+              ></path>
+              <path
+                fill="#ffa000"
+                d="M8,36.992l5.546-34.199c0.145-0.895,1.347-1.089,1.767-0.285L26,22.992L8,36.992z"
+              ></path>
+              <path
+                fill="#ff6f00"
+                d="M8.008 36.986L8.208 36.829 25.737 22.488 20.793 13.012z"
+              ></path>
+              <path
+                fill="#ffc400"
+                d="M8,37l26.666-25.713c0.559-0.539,1.492-0.221,1.606,0.547L40,37l-15,8.743 c-0.609,0.342-1.352,0.342-1.961,0L8,37z"
+              ></path>
+            </svg>
+            Firebase dht11 prj
+          </button>
+          <button onclick="location.href='#example-projects'">
+            Examples de projet
+          </button>
+        </div>
+      </div>
+      <span> Created with ❤️ by AMINE & YASSER </span>
+    </div>
+    <div class="container">
+      <div class="temperature-container">
+        <h2>Les données du capteur DHT11</h2>
+        <div class="temperature-row">
+          <div class="temperature-box">
+            <h2>Temperature</h2>
+            <p><span id="temp"></span></p>
+          </div>
+          <div class="temperature-box">
+            <h2>Humidity</h2>
+            <p><span id="humidity"></span></p>
+          </div>
+        </div>
+      </div>
+      <h1 id="project" class="main-header">Projet ESP32 avec Firebase</h1>
+      <h2>Definitions:</h2>
+      <ul>
+        <li>
+          <h3>ESP32</h3>
+          <p>
+            L'ESP32 est une puce microcontrôleur à 32 bits basée sur le
+            microcontrôleur Tensilica Xtensa LX6. Il est conçu pour être utilisé
+            dans des applications IoT (Internet des objets) et embarque un Wi-Fi
+            et un Bluetooth.
+          </p>
+        </li>
+        <li>
+          <h3>DHT11</h3>
+          <p>
+            Le capteur de température et d'humidité DHT11 est un capteur
+            numérique qui peut mesurer la température et l'humidité ambiante. Il
+            est basé sur le capteur de température et d'humidité DHT.
+          </p>
+        </li>
+        <li>
+          <h3>Firebase</h3>
+          <p>
+            Firebase est une plateforme de développement d'applications mobiles
+            et Web qui fournit des services d'hébergement d'applications, de
+            base de données, de messagerie et de stockage de fichiers.
+          </p>
+        </li>
+      </ul>
+      <h2>Matériel nécessaire:</h2>
+      <ul>
+        <li>Carte microcontrôleur ESP32</li>
+        <li>Capteur de température et d'humidité dht11</li>
+        <li>Câbles de raccordement</li>
+        <li>Connexion Internet</li>
+      </ul>
+      <div class="images-grid">
+        <img class="image" src="/1.webp" alt="ESP32" />
+        <img class="image" src="/2.webp" alt="DHT11" />
+        <img class="image" src="/3.webp" alt="Câbles de raccordement" />
+      </div>
+      <h2>Étape 1: Créer un projet Firebase</h2>
+      <ol>
+        <li>
+          Allez sur le site web de Firebase (<a
+            href="https://firebase.google.com"
+            >https://firebase.google.com</a
+          >) et connectez-vous à votre compte Google.
+        </li>
+        <li>
+          Cliquez sur "Ajouter un projet" et donnez-lui un nom. Sélectionnez
+          également votre pays/région et cliquez sur "Créer un projet".
+        </li>
+        <li>
+          Dans la page de présentation du projet, cliquez sur "Ajouter Firebase
+          à votre application web".
+        </li>
+        <li>
+          Dans la boîte de dialogue qui s'ouvre, donnez un nom à votre
+          application et copiez les informations de configuration (apiKey,
+          authDomain, databaseURL, projectId, storageBucket, messagingSenderId,
+          appId) dans un éditeur de texte.
+        </li>
+      </ol>
+      <h2>Étape 2: Créer une base de données Firebase</h2>
+      <ol>
+        <li>
+          Accédez à la console Firebase, sélectionnez votre projet, puis cliquez
+          sur "Realtime Database".
+        </li>
+        <li>
+          Cliquez sur "Créer une base de données" et sélectionnez le mode
+          "Testez le mode".
+        </li>
+        <li>
+          Définissez les règles d'accès à votre base de données en modifiant la
+          valeur "false" à "true" dans la règle "read" et "write" :
+        </li>
+        <pre>
+
+          {
+            "rules": {
+              ".read": true,
+              ".write": true
+            }
+          }
+        </pre>
+      </ol>
+      <h2>Étape 3: Connecter le DHT11 à l'ESP32</h2>
+      <ol>
+        <li>
+          Connectez le fil rouge (+) du capteur DHT11 au pin 5V de l'ESP32.
+        </li>
+        <li>
+          Connectez le fil noir (-) du capteur DHT11 au pin GND de l'ESP32.
+        </li>
+        <li>
+          Connectez le fil jaune (signal) du capteur DHT11 au pin D14 de
+          l'ESP32.
+        </li>
+      </ol>
+      <h2>
+        Étape 4: Envoyer les données de température et d'humidité à Firebase
+      </h2>
+      <p>
+        Utilisez le code fourni dans votre environnement de développement
+        préféré pour envoyer les données de température et d'humidité à
+        Firebase.
+      </p>
+    </div>
+    <div id="esp-section" class="esp-section">
+      <div class="container">
+        <h1 class="title">ESP32 - Microcontroller</h1>
+        <div class="container-last">
+          <p class="description">
+            L'ESP32 est un microcontrôleur Wi-Fi de la société Espressif
+            Systems. Il est souvent utilisé pour les projets d'Internet des
+            objets (IoT) et les projets de développement de prototypes.
+          </p>
+          <p class="features">
+            <strong>Caractéristiques de l'ESP32 :</strong>
+          </p>
+
+          <ul class="last-list">
+            <div class="bo">
+              <li>Processeur à deux cœurs cadencé à 240 MHz</li>
+              <li>Wi-Fi intégré (802.11 b/g/n)</li>
+              <li>Bluetooth intégré (jusqu'à Bluetooth 5.0)</li>
+              <li>Jusqu'à 34 broches d'entrée/sortie (GPIO)</li>
+              <li>Jusqu'à 18 canaux d'entrée analogique</li>
+              <li>
+                3 UART, 3 SPI, 2 I2C, 2 I2S, PWM, RTC, capteurs de température,
+                capteurs de toucher
+              </li>
+              <li>Mémoire flash intégrée de 4 Mo</li>
+            </div>
+          </ul>
+          <img class="pic" src="00.webp" />
+        </div>
+      </div>
+    </div>
+    <div id="example-projects" class="container">
+      <h1>Exemples de projets IoT ESP32</h1>
+      <p>Voici cinq exemples de projets IoT basés sur ESP32 :</p>
+      <ol>
+        <li>
+          <h2>
+            Système de surveillance de la température pour maison intelligente
+          </h2>
+          <p>
+            Ce projet utilise un ESP32 et un capteur de température pour
+            surveiller la température d'une maison et envoyer des notifications
+            sur le téléphone de l'utilisateur si la température dépasse un
+            certain seuil. Le système peut également être contrôlé à distance
+            via une interface web.
+          </p>
+          <p>
+            Pour réaliser ce projet, il faut brancher le capteur de température
+            sur l'ESP32 et programmer le microcontrôleur pour lire les données
+            du capteur et les envoyer à un serveur web. Le serveur web peut
+            ensuite envoyer des notifications sur le téléphone de l'utilisateur
+            si la température dépasse le seuil prédéfini. En utilisant une
+            interface web, l'utilisateur peut également surveiller la
+            température de sa maison à distance et contrôler les paramètres du
+            système de surveillance.
+          </p>
+          <img class="project-image" src="ex1.webp" />
+        </li>
+        <li>
+          <h2>Système d'arrosage automatique pour plantes</h2>
+          <p>
+            Ce projet utilise un ESP32 et des capteurs d'humidité pour
+            surveiller le niveau d'humidité des plantes et les arroser
+            automatiquement si nécessaire. Le système peut être configuré pour
+            arroser différentes plantes à différents moments et intervalles.
+          </p>
+          <p>
+            Pour réaliser ce projet, il faut brancher les capteurs d'humidité
+            sur l'ESP32 et programmer le microcontrôleur pour surveiller les
+            données des capteurs et contrôler l'arrosage des plantes. Le système
+            peut également être équipé d'une interface web pour permettre à
+            l'utilisateur de surveiller l'état des plantes et de contrôler les
+            paramètres du système d'arrosage.
+          </p>
+          <img class="project-image" src="ex2.jpg" />
+        </li>
+        <li>
+          <h2>Système de suivi de véhicule</h2>
+          <p>
+            Ce projet utilise un ESP32 et un module GPS pour suivre la position
+            d'un véhicule en temps réel. Le système peut envoyer les données de
+            localisation à un serveur web et afficher la position du véhicule
+            sur une carte.
+          </p>
+          <p>
+            Pour réaliser ce projet, il faut brancher le module GPS sur l'ESP32
+            et programmer le microcontrôleur pour lire les données de
+            localisation et les envoyer à un serveur web. Le serveur web peut
+            ensuite afficher la position du véhicule sur une carte et permettre
+            à l'utilisateur de surveiller le trajet du véhicule en temps réel.
+          </p>
+          <img class="project-image" src="ex3.webp" />
+        </li>
+        <li>
+          <h2>Système de verrouillage de porte intelligent</h2>
+          <p>
+            Ce projet utilise un ESP32 et un moteur servo pour contrôler un
+            verrou de porte. Le système peut être configuré pour verrouiller et
+            déverrouiller la porte automatiquement en fonction de l'heure ou des
+            commandes envoyées depuis une application mobile ou une interface
+            web.
+          </p>
+          <p>
+            Pour réaliser ce projet, il faut connecter le moteur servo au
+            circuit de l'ESP32 et programmer le microcontrôleur pour contrôler
+            le mouvement du servo en fonction des commandes reçues. Le système
+            peut être équipé d'une application mobile ou d'une interface web
+            pour permettre à l'utilisateur de verrouiller ou déverrouiller la
+            porte à distance.
+          </p>
+          <img class="project-image" src="es4.jpeg" />
+        </li>
+        <li>
+          <h2>Système de contrôle de la qualité de l'air</h2>
+          <p>
+            Ce projet utilise un ESP32 et des capteurs de qualité de l'air pour
+            surveiller les niveaux de polluants dans l'air et envoyer des
+            alertes si les niveaux dépassent un certain seuil. Le système peut
+            également être équipé d'une interface web pour permettre à
+            l'utilisateur de surveiller les niveaux de polluants en temps réel
+            et de contrôler les paramètres du système.
+          </p>
+          <p>
+            Pour réaliser ce projet, il faut brancher les capteurs de qualité de
+            l'air sur l'ESP32 et programmer le microcontrôleur pour lire les
+            données des capteurs et les envoyer à un serveur web. Le serveur web
+            peut ensuite envoyer des alertes sur le téléphone de l'utilisateur
+            si les niveaux de polluants dépassent le seuil prédéfini. En
+            utilisant une interface web, l'utilisateur peut également surveiller
+            les niveaux de polluants en temps réel et contrôler les paramètres
+            du système de surveillance.
+          </p>
+          <img class="project-image" src="ex5.jpg" />
+        </li>
+      </ol>
+    </div>
+  </body>
+</html>
